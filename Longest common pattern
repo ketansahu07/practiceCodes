@@ -1,0 +1,31 @@
+#include<iostream>
+using namespace std;
+
+void compset(char *a,int st[])
+{
+    while(*a)
+    {
+        ++st[*a];      //checks each char of the string and add 1 to the ascii value of that char
+        a++;
+    }
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--){
+        char a[10005],b[10005];
+        int sA[260]={0},sB[260]={0},count=0;      //two sets sA and sB to keep the count of each char in the string a and b
+        cin>>a>>b;
+        compset(a,sA);                            //calls compset(char*,int)
+        compset(b,sB);
+        for(int i=0;i<256;i++)
+        {
+            count = count + min(sA[i],sB[i]);     //add minimum count of a char from two set being compared
+        }
+
+        cout<<count<<endl;
+    }
+    return 0;
+}
