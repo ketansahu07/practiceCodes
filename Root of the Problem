@@ -1,0 +1,24 @@
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    int s1,s2;
+    int n,v1,v2;
+    while(t--)
+    {
+        s1=0;s2=0;
+        scanf("%d",&n);
+        while(n--)
+        {
+            scanf("%d%d",&v1,&v2);
+            s1+= v1;
+            s2+= v2;
+        }
+        cout<<s1-s2<<endl;
+    }
+    return 0;
+}
