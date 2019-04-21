@@ -1,0 +1,112 @@
+#include<iostream>
+#include<map>
+typedef long long int ll;
+using namespace std;
+
+char prime[1000000]={0};
+int P[100000],k;
+
+void sieve()
+{
+
+	P[k++]=2;
+
+	for(int i=3;i*i<1000000;i+=2)
+	{
+		if(!prime[i])
+		{
+			P[k++]=i;
+			for(int j=i*i;j<1000000;j+=i+i)
+				prime[j] = 1;
+		}
+	}
+
+	for(int i=1001;i<1000000;i+=2)
+		if(!prime[i])
+			P[k++]=i;
+}
+
+inline ll readInt()                           
+{                                             
+       ll number = 0;
+       char c = getchar_unlocked();           
+       while(c<'0' || c > '9')
+            c = getchar_unlocked();
+       while(c>='0'&&c<='9')
+       {
+            number = (number<<3)+(number<<1)+c-'0';
+            c = getchar_unlocked();
+       }
+       return number;
+}
+
+
+int main()
+{
+    sieve();
+    ll arr[12]={0},n,i,j,cnt,rem,res=1,t;
+    t=readInt();
+
+    while(t--){
+    n=readInt();
+    
+    for(i=0;i<n;i++)
+        arr[i]=readInt();
+
+    map<int,int> tuna;
+    tuna.clear();
+    map<int,int>::iterator it;
+    res=1;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;P[j]<=arr[i];j++)
+        {
+            //cout<<arr[i]<<endl;
+            rem=0,cnt=0;
+            while(rem==0)
+            {
+                rem=arr[i]%P[j];
+                if(rem==0)
+                {
+                    cnt++;
+                    arr[i]=arr[i]/P[j];
+                }
+                else
+                {
+                    if(cnt!=0){
+                    it=tuna.find(P[j]);
+                    if(it!=tuna.end())
+                        it->second+=cnt;
+                    else
+                        tuna.insert(pair<int,int>(P[j],cnt));
+                    //cout<<P[j]<<" => "<<cnt<<endl;
+                    }
+                    break;
+                }
+
+                if(arr[i]==0 || arr[i]==1){
+                      it=tuna.find(P[j]);
+                    if(it!=tuna.end())
+                        it->second+=cnt;
+                    else
+                        tuna.insert(pair<int,int>(P[j],cnt));
+                    //cout<<P[j]<<" => "<<cnt<<endl;
+                    goto L;
+                }
+            }
+        }
+        L:;
+    }
+
+    /**for(it=tuna.begin();it!=tuna.end();it++)
+    {
+        cout<<it->first<<" => "<<it->second<<endl;
+    }*/
+
+    //cout<<"Number of factors: ";
+    for(it=tuna.begin();it!=tuna.end();it++)
+        res=res*(it->second+1);
+    cout<<res<<endl;
+    }
+    return 0;
+}
