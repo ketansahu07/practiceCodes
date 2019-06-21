@@ -1,0 +1,74 @@
+#include<iostream>
+#include<algorithm>
+#define ll long long int
+using namespace std;
+
+const int MAX = 100000;
+
+inline ll readInt()                           //this function is for reading faster inputs
+{                                             
+       ll number = 0;
+       char c = getchar_unlocked();           //getchar_unlocked takes fastest input
+       while(c<'0' || c > '9')
+            c = getchar_unlocked();
+       while(c>='0'&&c<='9')
+       {
+            number = (number<<3)+(number<<1)+c-'0';
+            c = getchar_unlocked();
+       }
+       return number;
+}
+
+class frog
+{
+public:
+    ll x, id;
+}frogs[MAX];
+
+bool byX(const frog &a, const frog &b)
+{
+    return a.x < b.x;
+}
+
+ll comp[MAX];
+
+int main()
+{
+    ll n, k, p;
+    //cin>>n>>k>>p;
+    n=readInt();
+    k=readInt();
+    p=readInt();
+
+    for(ll i=0; i<n; i++)
+    {
+        frogs[i].id = i;
+        //cin>>frogs[i].x;
+        frogs[i].x=readInt();
+    }
+
+    sort(frogs, frogs+n, byX);
+
+    for(ll i=0; i<n; i++)
+    {
+        comp[frogs[i].id] = i;
+        ll j = i + 1;
+        while(j<n && frogs[j].x <= frogs[j-1].x+k)
+            {
+                comp[frogs[j].id] = i;
+                j++;
+            }
+            i = j - 1;
+    }
+    ll a, b;
+    for(ll i=0; i<p; i++)
+    {
+        cin>>a>>b;
+        a--;
+        b--;
+        if(comp[a]==comp[b])
+            cout<<"Yes"<<endl;
+        else cout<<"No"<<endl;
+    }
+    return 0;
+}
